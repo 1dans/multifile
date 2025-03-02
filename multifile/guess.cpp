@@ -14,7 +14,6 @@ using namespace std;
 #define o "\033[0m"
 
 void guessWord() {
-    srand(time(0));
     cout << "ѕќЋ≈ „”ƒ≈—\n";
     fstream file("riddle.txt", ios::in);
     if (!file) {
@@ -22,7 +21,7 @@ void guessWord() {
         return;
     }
     string words[5], tip[5], line;
-    int index = 0, i = 0;
+    int index = 0, i = 0, allattempts = 0;
     
     while (getline(file, line)) {
         index = line.find("|");
@@ -33,23 +32,21 @@ void guessWord() {
 
     file.close();
     index = rand() % 5;
-    string rndword = words[index];
+    string rndword = words[index], guess = "";
     random_shuffle(rndword.begin(), rndword.end());
     cout << rndword << endl;
-    string guess = "";
-    int attempts = 0, allattempts = 0;
     cout << "—пробуйте вгадати слово (введ≥ть 'q', €кщо хочете завершити спроби):\n";
-    bool gaveup = false; //можна зробити зм≥нну, €ка в≥дсл≥дковуЇ, чи була вже використана п≥дказка
+    bool gaveup = false, tipshowed = false; 
+    
     while (guess != words[index]) {
-        if (attempts == 3) cout << "’очете п≥дказку? т/н\n"; // тут перев≥р€Їмо, чи ц€ зм≥нна Ї false
+        if (allattempts == 3 && !tipshowed) cout << "’очете п≥дказку? т/н\n"; 
         cin >> guess;
         if (guess == "q") { gaveup = true;  break; }
-        if (guess == "н") { attempts = 100; continue; } //тод≥ тут ц€ зм≥нна зм≥нюЇтьс€ на true
-        else if (guess == "т") { cout << tip[index] << endl; attempts = 100; continue; }
+        if (guess == "н") { tipshowed = true; continue; } 
+        else if (guess == "т" && !tipshowed) { cout << tip[index] << endl; tipshowed=true; continue; }
         if (guess.length() > words[index].length()) cout << "—лово маЇ бути коротшим.\n";
         if (guess.length() < words[index].length()) cout << "—лово маЇ бути довшим.\n";
         allattempts++;
-        attempts++;
     }
     
     if (!gaveup) cout << "¬≥таю вас! ¬и вгадали слово, скориставшись " << allattempts << " спробами";

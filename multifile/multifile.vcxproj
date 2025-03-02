@@ -142,11 +142,13 @@
     <ClCompile Include="function.cpp" />
     <ClCompile Include="guess.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="wordguess.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="function.h" />
     <ClInclude Include="guess.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="wordguess.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
